@@ -1,14 +1,8 @@
 #!/bin/sh
 #
-# An example hook script to verify what is about to be committed.
-# Called by "git commit" with no arguments.  The hook should
-# exit with non-zero status after issuing an appropriate message if
-# it wants to stop the commit.
-#
-# To enable this hook, rename this file to "pre-commit".
-# pre-commit.sh
+
 STASH_NAME="pre-commit-$(date +%s)"
-git stash save -q --keep-index $STASH_NAME
+git stash save  --include-untracked -q --keep-index $STASH_NAME
 
 echo "running pre commit"
 
@@ -21,7 +15,7 @@ if [ ${num_notebooks} -eq 0 ]; then
  else
      python test_and_clear_notebooks.py $notebooks
  fi
-git add -u .
+git add .
 
 
 STASHES=$(git stash list)
