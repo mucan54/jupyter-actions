@@ -10,13 +10,13 @@ def process_notebook(notebook_filename, html_directory = 'notebook-html'):
     with open(notebook_filename) as f:
         nb = nbformat.read(f, as_version=4)
     
-    ep = ExecutePreprocessor(timeout=600, kernel_name='python3')
+    ep = ExecutePreprocessor(timeout=600, kernel_name='python3', allow_errors=True)
 
     try:
         # Check that the notebook runs
         ep.preprocess(nb, {'metadata': {'path': ''}})
     except CellExecutionError:
-        msg = f'Error executing the notebook "{notebook_filename}".\n\n'
+        msg = f'Error executing the notebook {notebook_filename}.\n\n'
         msg += f'See notebook "{notebook_filename}" for the traceback.'
         #print(msg)
         raise
