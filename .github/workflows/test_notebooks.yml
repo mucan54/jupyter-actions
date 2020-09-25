@@ -26,5 +26,5 @@ jobs:
         shell: bash -l {0}
         run: |
           conda activate jupyter-actions
-          python3 test/test_notebooks.py
+          pytest
 
