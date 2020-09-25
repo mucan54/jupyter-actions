@@ -10,11 +10,12 @@
 STASH_NAME="pre-commit-$(date +%s)"
 git stash save -q --keep-index $STASH_NAME
 
+echo "running pre commit"
+
 # Test prospective commit
 num_notebooks=`git diff --cached --name-only | grep  -c .ipynb`
 notebooks=`git diff --cached --name-only | grep  .ipynb`
-echo $notebooks
-echo ${#notebooks[@]}
+
 if [ ${num_notebooks} -eq 0 ]; then
      echo "No notebooks"
  else
