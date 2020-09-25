@@ -6,7 +6,7 @@ git stash save  --include-untracked -q --keep-index $STASH_NAME
 
 
 # Test prospective commit
-num_notebooks=`git diff --cached --name-only | grep  -c .ipynb`
+num_notebooks=`git diff --cached --name-only --diff-filter=d | grep  -c .ipynb`
 notebooks=`git diff --cached --name-only | grep  .ipynb`
 
 if [ ${num_notebooks} -eq 0 ]; then
