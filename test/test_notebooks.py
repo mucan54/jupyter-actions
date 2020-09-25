@@ -1,8 +1,12 @@
+import os
 import subprocess
 
 import nbformat
 from nbconvert.preprocessors import ExecutePreprocessor
 from nbconvert.preprocessors import CellExecutionError
+
+TEST_DIR = os.path.dirname(os.path.abspath(__file__))
+PARENT_DIR = os.path.join(TEST_DIR, '..')
 
 def process_notebook(notebook_filename, html_directory = 'notebook-html'):
     '''Checks if an IPython notebook runs without error from start to finish. If so, writes the notebook to HTML (with outputs) and overwrites the .ipynb file (without outputs).
@@ -29,7 +33,7 @@ def test_all_notebooks(remove_fail_test=True):
     '''
     # Get all files included in the git repository
     git_files = (subprocess
-                 .check_output("git ls-files", shell=True)
+                 .check_output("git ls-tree --full-tree --name-only -r HEAD", shell=True)
                  .decode('utf-8')
                  .splitlines())
 
@@ -38,9 +42,10 @@ def test_all_notebooks(remove_fail_test=True):
     
     # Test each notebook
     for notebook in notebooks:
-        process_notebook(notebook)
+        print("Testing", notebook)
+        process_notebook(os.path.join(PARENT_DIR, notebook))
         
     return
 
 if __name__ == '__main__':
-    process_all_notebooks()
+    test_all_notebooks()
