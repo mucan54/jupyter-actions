@@ -34,14 +34,7 @@ def process_all_notebooks(remove_fail_test=True):
                  .splitlines())
 
     # Get just the notebooks from the git files
-    notebooks = {fn:fn for fn in git_files if fn.endswith(".ipynb")}
-    
-    # Remove the notebook that tested this code
-    del notebooks['Notebook-testing-demo.ipynb']
-    
-    # Remove the notebook that's supposed to fail
-    if remove_fail_test:
-        del notebooks['notebook-fails.ipynb']
+    notebooks = [fn for fn in git_files if fn.endswith(".ipynb")]
     
     # Test each notebook
     for notebook in notebooks:
