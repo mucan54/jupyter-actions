@@ -1,3 +1,4 @@
+import argparse
 import os
 import subprocess
 
@@ -6,7 +7,7 @@ from nbconvert import HTMLExporter
 from nbconvert.preprocessors import ClearOutputPreprocessor, ExecutePreprocessor
 from nbconvert.preprocessors import CellExecutionError
 
-def process_notebook(notebook_filename, html_directory = 'notebook-html'):
+def process_notebook(notebook_filename, html_directory = 'notebook-html', execute=True):
     '''Checks if an IPython notebook runs without error from start to finish. If so, writes the notebook to HTML (with outputs) and overwrites the .ipynb file (without outputs).
     '''
     with open(notebook_filename) as f:
@@ -44,30 +45,40 @@ def process_notebook(notebook_filename, html_directory = 'notebook-html'):
     
 
         
-def process_all_notebooks(remove_fail_test=True):
+def process_all_notebooks():
     '''Runs `process_notebook` on all notebooks in the git repository.
     '''
     # Get all files included in the git repository
     git_files = (subprocess
-                 .check_output("git ls-files", shell=True)
+                 .check_output("git diff --name-only", shell=True)
                  .decode('utf-8')
                  .splitlines())
 
     # Get just the notebooks from the git files
-    notebooks = {fn:fn for fn in git_files if fn.endswith(".ipynb")}
-    
-    # Remove the notebook that tested this code
-    del notebooks['Notebook-testing-demo.ipynb']
-    
-    # Remove the notebook that's supposed to fail
-    if remove_fail_test:
-        del notebooks['notebook-fails.ipynb']
+    notebooks = [fn for fn in git_files if fn.endswith(".ipynb") if fn != 'Notebook-testing-demo.ipynb']
+  
     
     # Test each notebook, save it to HTML with outputs, and clear the outputs from the .ipynb file
     for notebook in notebooks:
+        print(f"Now processing {notebook}")
         process_notebook(notebook)
         
-    return
+    return notebooks
 
 if __name__ == '__main__':
-    process_all_notebooks(remove_fail_test=False)
+    
+    parser = argparse.ArgumentParser(description='read some notebok files')
+    parser.add_argument('notebooks', metavar='Notebooks', type=str, nargs='+',
+                        help='notebooks')
+    args = parser.parse_args()
+
+    notebooks = args.notebooks
+
+    for fn in notebooks:
+        if not fn.endswith('.ipynb'):
+            print(f'Error: file {fn} is not an IPython notebook.')
+            raise
+        
+    for fn in notebooks:
+        process_notebook(fn)
+    
