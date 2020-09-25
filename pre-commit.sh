@@ -12,10 +12,11 @@ git stash save -q --keep-index $STASH_NAME
 
 # Test prospective commit
 notebooks=`git diff --cached --name-only | grep .ipynb`
+echo $notebooks
 if [ ${#notebooks[@]} -eq 0 ]; then
      echo "No notebooks"
  else
-     python process_notebooks.py $notebooks
+     python test_and_clear_notebooks.py $notebooks
 
  fi
 git add -u .
