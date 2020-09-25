@@ -1,3 +1,4 @@
+import os
 import subprocess
 
 import nbformat
@@ -5,6 +6,10 @@ from nbconvert.preprocessors import ExecutePreprocessor
 from nbconvert.preprocessors import CellExecutionError
 
 import pytest
+TEST_DIR = os.path.dirname(os.path.abspath(__file__))
+
+
+
 
 def process_notebook(notebook_filename, html_directory = 'notebook-html'):
     '''Checks if an IPython notebook runs without error from start to finish. If so, writes the notebook to HTML (with outputs) and overwrites the .ipynb file (without outputs).
@@ -29,9 +34,9 @@ def process_notebook(notebook_filename, html_directory = 'notebook-html'):
 def test_process_notebook():
 
     with pytest.raises(CellExecutionError):
-        process_notebook('notebook-fails')
+        process_notebook(os.path.join(TEST_DIR,'notebook-fails'))
 
-    assert(process_notebook('notebook-pass') is None)
+    assert(process_notebook(os.path.join(TEST_DIR,'notebook-pass')) is None)
 
 if __name__ == '__main__':
     test_process_notebook()
