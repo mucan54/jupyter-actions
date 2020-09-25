@@ -13,7 +13,7 @@ if [ ${num_notebooks} -eq 0 ]; then
      echo "No notebooks to process."
  else
  	echo "processing notebooks: $notebooks"
-     python test_and_clear_notebooks.py $notebooks
+     python clear_notebooks.py $notebooks
  fi
 git add .
 
