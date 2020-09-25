@@ -23,6 +23,8 @@ jobs:
           python-version: 3.7
 
       - name: Execute all Notebooks
+        shell: bash -l {0}
         run: |
+          conda activate jupyter-actions
           python3 test_notebooks.py
 
