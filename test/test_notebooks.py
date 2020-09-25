@@ -24,7 +24,7 @@ def process_notebook(notebook_filename, html_directory = 'notebook-html'):
     print(f"Successfully executed {notebook_filename}")
     return
     
-def process_all_notebooks(remove_fail_test=True):
+def test_all_notebooks(remove_fail_test=True):
     '''Runs `process_notebook` on all notebooks in the git repository.
     '''
     # Get all files included in the git repository
