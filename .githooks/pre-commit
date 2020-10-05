@@ -4,7 +4,7 @@
 notebooks=`git diff --cached --name-only --diff-filter=d | grep  .ipynb`
 
 # Checks if $notebooks is non-empty
-if [ ! -z "$notebooks"]
+if [ ! -z "$notebooks" ]
 then
     # Run the script to clear the notebooks
     python .githooks/clear_notebooks.py $notebooks
