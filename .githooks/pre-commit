@@ -3,7 +3,8 @@
 # Get all notebooks currently staged for commit
 notebooks=`git diff --cached --name-only --diff-filter=d | grep  .ipynb`
 
-if [ -z "$notebooks"]
+# Checks if $notebooks is non-empty
+if [ ! -z "$notebooks"]
 then
     # Run the script to clear the notebooks
     python .githooks/clear_notebooks.py $notebooks
