@@ -3,8 +3,12 @@
 # Get all notebooks currently staged for commit
 notebooks=`git diff --cached --name-only --diff-filter=d | grep  .ipynb`
 
-# Run the script to clear the notebooks
-python .githooks/clear_notebooks.py $notebooks
+if [ -z "$notebooks"]
+then
+    # Run the script to clear the notebooks
+    python .githooks/clear_notebooks.py $notebooks
+    # Re-add notebooks to staging area
+    git add $notebooks
+fi
 
-# Re-add notebooks to staging area
-git add $notebooks
+
