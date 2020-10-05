@@ -20,9 +20,6 @@ def process_notebook(notebook_filename, html_directory = 'notebook-html'):
         # Check that the notebook runs
         ep.preprocess(nb, {'metadata': {'path': ''}})
     except CellExecutionError:
-        msg = f'Error executing the notebook {notebook_filename}.\n\n'
-        msg += f'See notebook "{notebook_filename}" for the traceback.'
-        #print(msg)
         raise
          
     print(f"Successfully executed {notebook_filename}")
@@ -49,3 +46,4 @@ def test_all_notebooks(remove_fail_test=True):
 
 if __name__ == '__main__':
     test_all_notebooks()
+    
