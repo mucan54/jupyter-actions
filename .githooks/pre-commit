@@ -4,7 +4,6 @@
 STASH_NAME="pre-commit-$(date +%s)"
 git stash save  --include-untracked -q --keep-index $STASH_NAME
 
-
 # Test prospective commit
 num_notebooks=`git diff --cached --name-only --diff-filter=d | grep  -c .ipynb`
 notebooks=`git diff --cached --name-only --diff-filter=d| grep  .ipynb`
