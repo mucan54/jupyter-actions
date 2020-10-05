@@ -1,24 +1,10 @@
 #!/bin/sh
-#
 
-STASH_NAME="pre-commit-$(date +%s)"
-git stash save  --include-untracked -q --keep-index $STASH_NAME
+# Get all notebooks currently staged for commit
+notebooks=`git diff --cached --name-only --diff-filter=d | grep  .ipynb`
 
-# Test prospective commit
-num_notebooks=`git diff --cached --name-only --diff-filter=d | grep  -c .ipynb`
-notebooks=`git diff --cached --name-only --diff-filter=d| grep  .ipynb`
-echo $notebooks
-if [ ${num_notebooks} -eq 0 ]; then
-     echo "No notebooks to process."
- else
- 	echo "processing notebooks: $notebooks"
-     python .githooks/clear_notebooks.py $notebooks
- fi
-git add .
+# Run the script to clear the notebooks
+python .githooks/clear_notebooks.py $notebooks
 
-
-STASHES=$(git stash list)
-if [[ $STASHES == "$STASH_NAME" ]]; then
-  git stash pop -q
-fi
-
+# Re-add notebooks to staging area
+git add $notebooks
