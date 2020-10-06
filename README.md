@@ -12,7 +12,7 @@ This contains features addressing the following three ideas:
 
 ## Conda: `environment.yml`
 
-We're using conda for package management. The YAML file `environment.yml` contains a specification for Python packages, etc, that need to be installed for this repository to run correctly.
+We're using [conda](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html) for package management. The YAML file `environment.yml` contains a specification for Python packages, etc, that need to be installed for this repository to run correctly.
 
 **Note:** There are two ways to create a YAML file for a conda environment: manually or using `conda env export`. We are constructing this file manually. In other words, we are directly editing `environment.yml` and **only** installing packages by specifying them in this file.
 
@@ -27,7 +27,7 @@ Our approach is admittedly inconvenient. Why do we do this?
 
 A common complaint with Jupyter/Git workflows: accidentally pushing notebooks with cell outputs. Sometimes this is what we want, e.g. if we're using a notebook as a report and we want to share results, but perhaps we should be saving notebooks as HTML for that.
 
-To address the former issue (pushing unintended cell outputs) we will use a **pre-commit hook**. This is a script that is called every time we `git commit`. Technically, it is run right before the commit actually happens. 
+To address the former issue (pushing unintended cell outputs) we will use a **pre-commit hook**. This is a script that is called every time we `git commit`. Technically, it is run right before the commit actually happens. This is one type of a [git hook](https://githooks.com/), but we can also create hooks that run when we add, push, etc. 
 
 Our git hook does three things:
 1. Get all file paths of IPython notebooks currently staged for commit.
