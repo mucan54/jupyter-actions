@@ -3,6 +3,13 @@
 
 ## Overview
 
+This repository acts as a demo for implementing some Continuous Integration testing with GitHub Actions for a project containing / based on Jupyter notebooks.
+
+This contains features addressing the following three ideas:
+1. Ensure reproducible results / environments. (Solved by using conda)
+2. Avoid pushing notebooks with cell outputs. (Solved by using pre-commit git hooks)
+3. Avoid merging notebooks that run with errors. (Solved by using GitHub Actions)
+
 ## Conda: `environment.yml`
 
 We're using conda for package management. The YAML file `environment.yml` contains a specification for Python packages, etc, that need to be installed for this repository to run correctly.
@@ -31,7 +38,7 @@ Our git hook does three things:
 
 Another common issue with repositories of Jupyter Notebooks: we think everything works correctly, we push our changes, our collaborators (or audience) tries to use the notebooks, and they run into errors that we didn't catch.
 
-How can we ensure that notebooks run correctly? We could implement some automated testing in our pre-commit hook (again using `nbconvert`), but we're going to introduce another tool, GitHub Actions.
+How can we ensure that notebooks run correctly? We could implement some automated testing in our pre-commit hook (again using `nbconvert`), but we're going to introduce another tool, [GitHub Actions](https://docs.github.com/en/free-pro-team@latest/actions).
 
 GitHub Actions is built for Continuous Integration / Continuous Deployment workflows, and can handle far more sophisticated projects than the one we're using here. Essentially, it lets us specify *workflows*, tests that are run on external Docker containers in response to something we do in our remote repository (for example: pushing a commit).
 
@@ -39,6 +46,7 @@ That's precisely what we're doing here. Our workflow builds a Docker container, 
 * Test that all notebooks run
 * Test that the above testing function works 
 
+For more on GitHub Actions, there is a wonderful [tutorial](https://lab.github.com/githubtraining/github-actions:-hello-world) in the GitHub Learning Lab. In fact, this is a great resource for all kinds of GitHub tutorials! 
 
 
 ## Build
