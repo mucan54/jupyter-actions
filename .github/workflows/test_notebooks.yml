@@ -1,6 +1,6 @@
 name: Test-Notebooks
 
-# Run every time a new commit is pushed
+# Run every time a new commit is pushed.
 on: push
 
 jobs:
